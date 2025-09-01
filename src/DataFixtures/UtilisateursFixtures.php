@@ -2,14 +2,20 @@
 
 namespace App\DataFixtures;
 
+use App\DataFixtures\Traits\FixtureHelperTrait;
 use App\Entity\Campus;
 use App\Entity\Utilisateur;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class UtilisateursFixtures extends Fixture
+class UtilisateursFixtures extends Fixture implements DependentFixtureInterface
 {
+
+    use FixtureHelperTrait;
+
     public function __construct(private UserPasswordHasherInterface $userPasswordHasher)
     {
 
@@ -21,7 +27,7 @@ class UtilisateursFixtures extends Fixture
 
     public function ajouterUtilisateurs(ObjectManager $manager): void
     {
-        $faker = \Faker\Factory::create('fr_FR');
+        $faker = Factory::create('fr_FR');
 
         $campus = new Campus();
         $campus->setNom('Campus Test');
@@ -36,7 +42,8 @@ class UtilisateursFixtures extends Fixture
         $utilisateur->setRoles(['ROLE_USER']);
         $utilisateur->setTelephone($faker->phoneNumber());
         $utilisateur->setEstActif(true);
-        $utilisateur->setCampus($campus);
+        $utilisateur->setCampus($faker->randomElement($this->getAllReferencesByPrefix($this->referenceRepository, "campus_")));
+        $this->addReference('user_organisateur', $utilisateur);
         $manager->persist($utilisateur);
 
         $participant = new Utilisateur();
@@ -48,7 +55,8 @@ class UtilisateursFixtures extends Fixture
         $participant->setRoles(['ROLE_USER']);
         $participant->setTelephone($faker->phoneNumber());
         $participant->setEstActif(true);
-        $participant->setCampus($campus);
+        $participant->setCampus($faker->randomElement($this->getAllReferencesByPrefix($this->referenceRepository, "campus_")));
+        $this->addReference('user_participant', $participant);
         $manager->persist($participant);
 
         $admin = new Utilisateur();
@@ -60,11 +68,16 @@ class UtilisateursFixtures extends Fixture
         $admin->setRoles(['ROLE_USER', 'ROLE_ADMIN']);
         $admin->setTelephone($faker->phoneNumber());
         $admin->setEstActif(true);
-        $admin->setCampus($campus);
+        $admin->setCampus($faker->randomElement($this->getAllReferencesByPrefix($this->referenceRepository, "campus_")));
         $manager->persist($admin);
 
         $manager->flush();
+    }
 
-        
+    public function getDependencies(): array
+    {
+        return [
+            CampusFixtures::class
+        ];
     }
 }

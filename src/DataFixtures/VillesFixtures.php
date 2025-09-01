@@ -1,0 +1,38 @@
+<?php
+
+namespace App\DataFixtures;
+
+use App\Entity\Sortie;
+use App\Entity\Ville;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Persistence\ObjectManager;
+
+class VillesFixtures extends Fixture
+{
+
+    private const VILLES = [
+        "Rennes" => "35000",
+        "Nantes" => "44000",
+        "Paris" => "75000",
+    ];
+
+    public function __construct(){}
+    public function load(ObjectManager $manager): void
+    {
+
+        $i = 0;
+        foreach(self::VILLES as $nomVille => $cp){
+            $ville = new Ville();
+            $ville->setNom($nomVille);
+            $ville->setCodePostal($cp);
+            $manager->persist($ville);
+
+            $this->addReference('ville_'.$i, $ville);
+//            dump($this->getReference('ville_'.$i, Ville::class));
+            $i++;
+        }
+        $manager->flush();
+    }
+
+}
