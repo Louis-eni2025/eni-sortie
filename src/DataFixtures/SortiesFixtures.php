@@ -2,8 +2,9 @@
 
 namespace App\DataFixtures;
 
-use App\DataFixtures\Traits\FixtureHelperTrait;
 use App\Entity\Campus;
+use App\Entity\Etat;
+use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Utilisateur;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -13,13 +14,15 @@ use Faker\Factory;
 
 class SortiesFixtures extends Fixture implements DependentFixtureInterface
 {
-
-    use FixtureHelperTrait;
-
-    public function __construct(){}
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
+
+        $campusList =  $manager->getRepository(Campus::class)->findAll();
+        $organisateur = $manager->getRepository(Utilisateur::class)->findOneBy(['email'=>"organisateur@mail.fr"]);
+        $participant = $manager->getRepository(Utilisateur::class)->findOneBy(['email'=>"participant@mail.fr"]);
+        $lieux = $manager->getRepository(Lieu::class)->findAll();
+        $etats = $manager->getRepository(Etat::class)->findAll();
 
         for($i = 0; $i < 20; $i++){
             $sortie = new Sortie();
@@ -38,17 +41,14 @@ class SortiesFixtures extends Fixture implements DependentFixtureInterface
             $sortie->setNbInscriptionsMax(100);
             $sortie->setInfosSortie('Informations de la sortie');
 
-            $sortie->setCampus($faker->randomElement($this->getAllReferencesByPrefix($this->referenceRepository, "campus_")));
-            $sortie->setOrganisateur($this->getReference('user_organisateur', Utilisateur::class));
-            $sortie->addParticipant($this->getReference('user_participant', Utilisateur::class));
-            $sortie->setLieu($faker->randomElement($this->getAllReferencesByPrefix($this->referenceRepository, "lieu_")));
-            $sortie->setEtat($faker->randomElement($this->getAllReferencesByPrefix($this->referenceRepository, "etat_")));
+            $sortie->setCampus($faker->randomElement($campusList));
+            $sortie->setOrganisateur($organisateur);
+            $sortie->addParticipant($participant);
+            $sortie->setLieu($faker->randomElement($lieux));
+            $sortie->setEtat($faker->randomElement($etats));
 
             $manager->persist($sortie);
         }
-
-
-
         $manager->flush();
     }
 
