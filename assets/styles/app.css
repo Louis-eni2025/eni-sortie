@@ -1,3 +1,46 @@
-body {
-    background-color: skyblue;
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    color: white;
+}
+
+main {
+    flex: 1;
+    text-align: center;
+}
+
+.navbar {
+    background-color: sandybrown !important;
+    color: black !important;
+}
+
+h1{
+    text-align: center;
+}
+
+
+a {
+    text-decoration: none;
+    color: black;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.card-container {
+    display: flex;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+footer {
+    background-color: sandybrown !important;
+    color: black;
+    padding: 1rem;
+    text-align: center;
 }

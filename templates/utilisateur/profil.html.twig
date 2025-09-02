@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block body %}
+    <h1>Mon profil</h1>
+    <div class="card-container">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{ utilisateur.nom }}</h5>
+                <h6 class="card-subtitle mb-2 text-body-secondary">{{ utilisateur.prenom }}</h6>
+                <h6 class="card-subtitle mb-2 text-body-secondary">{{ utilisateur.email }}</h6>
+                {#        {% if utilisateur.imageName %} #}
+                {#          <img src="{{ asset('uploads/images/wish/' ~ utilisateur.imageName) }}" alt="Image du souhait" #}
+                {#               style="max-width:200px;"> #}
+                {#        {% endif %} #}
+                <p class="card-text">{{ utilisateur.telephone }}</p>
+                {% if app.user %}
+                    <a class="btn btn-primary" href="{{ path('utilisateur_profil_modifier',{'id':app.user.id}) }}">Modifier</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
