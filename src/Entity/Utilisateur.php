@@ -57,7 +57,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Sortie::class, mappedBy: 'participants')]
     private Collection $sortiesInscrit;
 
-    #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'utilisateurs')]
+    #[ORM\ManyToOne(inversedBy: 'utilisateurs')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Campus $campus = null;
 

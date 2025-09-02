@@ -21,6 +21,7 @@ class VillesFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
 
+
         $i = 0;
         foreach(self::VILLES as $nomVille => $cp){
             $ville = new Ville();
@@ -28,8 +29,6 @@ class VillesFixtures extends Fixture
             $ville->setCodePostal($cp);
             $manager->persist($ville);
 
-            $this->addReference('ville_'.$i, $ville);
-            $i++;
         }
         $manager->flush();
     }

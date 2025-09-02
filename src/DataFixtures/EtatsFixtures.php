@@ -26,8 +26,6 @@ class EtatsFixtures extends Fixture
             $etat = new Etat();
             $etat->setLibelle($etatNom);
             $manager->persist($etat);
-
-            $this->addReference('etat_'.$i++, $etat);
         }
 
         $manager->flush();

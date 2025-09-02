@@ -23,7 +23,6 @@ class CampusFixtures extends Fixture
             $campus = new Campus();
             $campus->setNom($nomCampus);
             $manager->persist($campus);
-            $this->addReference('campus_'.$i++, $campus);
         }
         $manager->flush();
 

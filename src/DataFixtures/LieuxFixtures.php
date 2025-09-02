@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\DataFixtures\Traits\FixtureHelperTrait;
 use App\Entity\Lieu;
+use App\Entity\Ville;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -22,9 +23,9 @@ class LieuxFixtures extends Fixture implements DependentFixtureInterface
     public function __construct(){}
     public function load(ObjectManager $manager): void
     {
-
         $faker = Factory::create('fr_FR');
 
+        $villes = $manager->getRepository(Ville::class)->findAll();
 
         for($i=0;$i<20;$i++){
             $lieu =  new Lieu();
@@ -32,12 +33,10 @@ class LieuxFixtures extends Fixture implements DependentFixtureInterface
             $lieu->setRue($faker->streetAddress);
             $lieu->setLatitude($faker->latitude);
             $lieu->setLongitude($faker->longitude);
-            $lieu->setVille($faker->randomElement($this->getAllReferencesByPrefix($this->referenceRepository, "ville_")));
+            $lieu->setVille($faker->randomElement($villes));
 
             $manager->persist($lieu);
 
-
-            $this->addReference('lieu_'.$i++, $lieu);
         }
 
         $manager->flush();
