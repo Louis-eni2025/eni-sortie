@@ -10,10 +10,10 @@
                 <h5 class="card-title">{{ utilisateur.nom }}</h5>
                 <h6 class="card-subtitle mb-2 text-body-secondary">{{ utilisateur.prenom }}</h6>
                 <h6 class="card-subtitle mb-2 text-body-secondary">{{ utilisateur.email }}</h6>
-                {#        {% if utilisateur.imageName %} #}
-                {#          <img src="{{ asset('uploads/images/wish/' ~ utilisateur.imageName) }}" alt="Image du souhait" #}
-                {#               style="max-width:200px;"> #}
-                {#        {% endif %} #}
+                        {% if utilisateur.imageName %}
+                          <img src="{{ asset('images/profil/' ~ utilisateur.imageName) }}" alt="Image du souhait"
+                               style="max-width:200px;">
+                        {% endif %}
                 <p class="card-text">{{ utilisateur.telephone }}</p>
                 {% if app.user %}
                     <a class="btn btn-primary" href="{{ path('utilisateur_profil_modifier',{'id':app.user.id}) }}">Modifier</a>
