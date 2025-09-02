@@ -1,0 +1,53 @@
+<?php
+
+namespace App\Controller;
+
+use App\Entity\Utilisateur;
+use App\Form\UtilisateurType;
+use App\Repository\UtilisateurRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Attribute\Route;
+#[Route('/utilisateur', name: 'utilisateur_')]
+final class UtilisateurController extends AbstractController
+{
+    #[Route('/{id}', name: 'profil',requirements: ['id' => '\d+'])]
+    public function profil(UtilisateurRepository $utilisateurRepository, int $id): Response
+    {
+        $utilisateur = $utilisateurRepository->find($id);
+
+        if (!$utilisateur) {
+            throw $this->createNotFoundException('Utilisateur not found');
+        }
+
+        return $this->render('utilisateur/profil.html.twig',[
+            'utilisateur' => $utilisateur
+        ]);
+    }
+
+    #[Route('/{id}/modifier', name: 'profil_modifier', requirements: ['id' => '\d+'])]
+    public function edit(Request $request, Utilisateur $utilisateur, EntityManagerInterface $entityManager,UserPasswordHasherInterface $userPasswordHasher): Response
+    {
+        $form = $this->createForm(UtilisateurType::class, $utilisateur);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $password = $form->get('password')->getData();
+            $utilisateur->setPassword($userPasswordHasher->hashPassword($utilisateur, $password));
+
+            $entityManager->persist($utilisateur);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('utilisateur_profil',['id'=>$utilisateur->getId()]);
+        }
+
+        return $this->render('utilisateur/modifier_profil.html.twig', [
+            'utilisateur' => $utilisateur,
+            'form' => $form,
+        ]);
+    }
+}
