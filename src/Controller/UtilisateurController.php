@@ -31,13 +31,14 @@ final class UtilisateurController extends AbstractController
     #[Route('/{id}/modifier', name: 'profil_modifier', requirements: ['id' => '\d+'])]
     public function edit(Request $request, Utilisateur $utilisateur, EntityManagerInterface $entityManager,UserPasswordHasherInterface $userPasswordHasher): Response
     {
+        $utilisateur=$this->getUser();
         $form = $this->createForm(UtilisateurType::class, $utilisateur);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $password = $form->get('password')->getData();
-            $utilisateur->setPassword($userPasswordHasher->hashPassword($utilisateur, $password));
+//            $password = $form->get('password')->getData();
+//            $utilisateur->setPassword($userPasswordHasher->hashPassword($utilisateur, $password));
 
             $entityManager->persist($utilisateur);
             $entityManager->flush();
