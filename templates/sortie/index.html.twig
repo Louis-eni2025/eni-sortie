@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SortieController!{% endblock %}
+
+{% block body %}
+    <div>
+        <h1>Listes des sorties</h1>
+
+        <div class="col-sm-12">
+            <h3 class="">Filtrer les sorties</h3>
+            <div style="display: flex;">
+                <div>
+                    <label>Campus</label>
+                    <select class="form-control">
+                        <option>Campus</option>
+                        <option>Campus</option>
+                        <option>Campus</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Le nom de la sortie contient</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div>
+                    <label>Du</label>
+                    <input type="date" class="form-control">
+                </div>
+                <div>
+                    <label>au</label>
+                    <input type="date" class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-striped">
+            <thead class="">
+            <tr>
+                <th>Nom de la sortie</th>
+                <th>Date de la sortie</th>
+                <th>Clôture</th>
+                <th>Inscrits/Places</th>
+                <th>État</th>
+                <th>Inscrit</th>
+                <th>Organisateur</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for sortie in sorties %}
+                <tr>
+                    <td>{{ sortie.nom }}</td>
+                    <td>{{ sortie.dateHeureDebut |format_datetime('short', 'short', locale: 'fr') }}</td>
+                    <td>{{ sortie.dateLimiteInscription |format_datetime('short', 'short', locale: 'fr') }}</td>
+                    <td>{{ sortie.participants | length }}/{{ sortie.nbInscriptionsMax }}</td>
+                    <td>{{ sortie.etat.libelle }}</td>
+                    <td>{{ (app.user in sortie.participants) ? 'x':'' }}</td>
+                    <td>{{ sortie.organisateur.nom|upper ~ ' ' ~ sortie.organisateur.prenom }}</td>
+                    <td>
+                        <a>Afficher</a>
+                        {% if app.user in sortie.participants %}
+                            <a>Se désister</a>
+                        {% endif %}
+                        {% if app.user == sortie.organisateur %}
+                            <a>Modifier</a>
+                            {% if sortie.etat.libelle == 'En création' %}
+                                <a>Publier</a>
+                            {% elseif sortie.etat.libelle == 'Ouvert' %}
+                                <a>Annuler</a>
+                            {% endif %}
+                        {% else %}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+{% endblock %}
