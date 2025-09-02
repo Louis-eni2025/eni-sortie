@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures;
 
-use App\DataFixtures\Traits\FixtureHelperTrait;
 use App\Entity\Campus;
 use App\Entity\Utilisateur;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -13,13 +12,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UtilisateursFixtures extends Fixture implements DependentFixtureInterface
 {
-
-    use FixtureHelperTrait;
-
-    public function __construct(private UserPasswordHasherInterface $userPasswordHasher)
-    {
-
-    }
+    public function __construct(private UserPasswordHasherInterface $userPasswordHasher){}
     public function load(ObjectManager $manager): void
     {
        $this->ajouterUtilisateurs($manager);

@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures;
 
-use App\DataFixtures\Traits\FixtureHelperTrait;
 use App\Entity\Lieu;
 use App\Entity\Ville;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -12,15 +11,12 @@ use Faker\Factory;
 
 class LieuxFixtures extends Fixture implements DependentFixtureInterface
 {
-    use FixtureHelperTrait;
-
     private const LIEUX = [
         "Rennes" => "35000",
         "Nantes" => "44000",
         "Paris" => "75000",
     ];
 
-    public function __construct(){}
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');

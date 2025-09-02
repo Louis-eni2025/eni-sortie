@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures;
 
-use App\DataFixtures\Traits\FixtureHelperTrait;
 use App\Entity\Campus;
 use App\Entity\Etat;
 use App\Entity\Lieu;
@@ -15,10 +14,6 @@ use Faker\Factory;
 
 class SortiesFixtures extends Fixture implements DependentFixtureInterface
 {
-
-    use FixtureHelperTrait;
-
-    public function __construct(){}
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
@@ -54,9 +49,6 @@ class SortiesFixtures extends Fixture implements DependentFixtureInterface
 
             $manager->persist($sortie);
         }
-
-
-
         $manager->flush();
     }
 
