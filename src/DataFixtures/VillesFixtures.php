@@ -29,7 +29,6 @@ class VillesFixtures extends Fixture
             $manager->persist($ville);
 
             $this->addReference('ville_'.$i, $ville);
-//            dump($this->getReference('ville_'.$i, Ville::class));
             $i++;
         }
         $manager->flush();

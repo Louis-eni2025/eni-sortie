@@ -42,6 +42,7 @@ class SortiesFixtures extends Fixture implements DependentFixtureInterface
             $sortie->setOrganisateur($this->getReference('user_organisateur', Utilisateur::class));
             $sortie->addParticipant($this->getReference('user_participant', Utilisateur::class));
             $sortie->setLieu($faker->randomElement($this->getAllReferencesByPrefix($this->referenceRepository, "lieu_")));
+            $sortie->setEtat($faker->randomElement($this->getAllReferencesByPrefix($this->referenceRepository, "etat_")));
 
             $manager->persist($sortie);
         }

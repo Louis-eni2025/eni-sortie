@@ -29,10 +29,6 @@ class UtilisateursFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create('fr_FR');
 
-        $campus = new Campus();
-        $campus->setNom('Campus Test');
-        $manager->persist($campus);
-
         $utilisateur = new Utilisateur();
 
         $utilisateur->setNom($faker->firstName());

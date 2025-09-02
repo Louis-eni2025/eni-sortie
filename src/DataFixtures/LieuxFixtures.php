@@ -32,7 +32,6 @@ class LieuxFixtures extends Fixture implements DependentFixtureInterface
             $lieu->setRue($faker->streetAddress);
             $lieu->setLatitude($faker->latitude);
             $lieu->setLongitude($faker->longitude);
-//            dump($this->getAllReferencesByPrefix($this->referenceRepository, "ville_"));
             $lieu->setVille($faker->randomElement($this->getAllReferencesByPrefix($this->referenceRepository, "ville_")));
 
             $manager->persist($lieu);
