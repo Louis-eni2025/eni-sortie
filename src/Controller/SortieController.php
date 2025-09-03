@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Sortie;
+use App\Service\CampusService;
 use App\Service\SortieService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,17 +13,17 @@ final class SortieController extends AbstractController
 {
     public function __construct(
         private SortieService $sortieService,
+        private CampusService $campusService,
     ){}
 
     #[Route('/sortie', name: 'app_sortie')]
     public function index(): Response
     {
-
         $sorties = $this->sortieService->recupererSorties();
-
+        $campus = $this->campusService->recupererCampus();
         return $this->render('sortie/index.html.twig', [
-            'controller_name' => 'SortieController',
             'sorties' => $sorties,
+            'campusList' => $campus
         ]);
     }
 }

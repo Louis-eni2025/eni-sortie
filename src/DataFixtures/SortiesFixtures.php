@@ -31,7 +31,7 @@ class SortiesFixtures extends Fixture implements DependentFixtureInterface
             //La date limite d'inscription sera toujours a date event - 1 semaine
             $dateLimiteInscription = (clone $dateDebut)->modify('-1 weeks');
 
-            $sortie->setNom('Sortie');
+            $sortie->setNom("Sortie au ".$faker->jobTitle()." ".$faker->colorName());
             $sortie->setDateHeureDebut($dateDebut);
 
             // on fait x 10 pour avoir un chiffre rond
