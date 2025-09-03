@@ -7,5 +7,5 @@ import './bootstrap.js';
  */
 import './styles/app.css';
 import './scripts/filtre_sortie.js';
+import './scripts/modificationFormulaireSortie.js';
 
-console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
