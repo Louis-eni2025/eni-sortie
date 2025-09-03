@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail de la sortie{% endblock %}
+
+{% block body %}
+    <h1>Détail de la sortie</h1>
+    <div class="container">
+        <div class="card col-sm-8 mx-auto">
+            <div class="card-body d-flex justify-content-between text-start">
+                <div>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">Nom de la sortie : {{ sortie.nom }}</h6>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">Date et heure de la sortie
+                        : {{ sortie.dateHeureDebut | date ("m/d/Y h:i") }}</h6>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">Inscription Max
+                        : {{ sortie.dateLimiteInscription | date ("m/d/Y") }}</h6>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">Date limite d'inscription
+                        : {{ sortie.nbInscriptionsMax }}</h6>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">Nombre de places : {{ sortie.duree }}</h6>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">Description et infos
+                        : {{ sortie.infosSortie }}</h6>
+                </div>
+                <div>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">Campus : {{ sortie.campus.nom }}</h6>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">Lieu : {{ sortie.lieu.nom }}</h6>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">Rue : {{ sortie.lieu.rue }}</h6>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">Code postal
+                        : {{ sortie.lieu.ville.codePostal }}</h6>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">Latitude : {{ sortie.lieu.latitude }}</h6>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">Longitude : {{ sortie.lieu.longitude }}</h6>
+                </div>
+            </div>
+        </div>
+
+    <div class="mt-5 col-sm-8 mx-auto">
+        <table class="table table-striped">
+            <thead class="">
+            <tr>
+                <th>Nom</th>
+                <th>Prenom</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for participant in sortie.participants %}
+                <tr>
+                    <td>{{ participant.nom }}</td>
+                    <td>{{ participant.prenom }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </div>
+{% endblock %}

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Utilisateur;
 use App\Form\UtilisateurType;
 use App\Repository\UtilisateurRepository;
+use App\Service\UtilisateurService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,13 +15,15 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/utilisateur', name: 'utilisateur_')]
 final class UtilisateurController extends AbstractController
 {
+    public function __construct(private UtilisateurService $utilisateurService){}
+
     #[Route('/{id}', name: 'profil',requirements: ['id' => '\d+'])]
-    public function profil(UtilisateurRepository $utilisateurRepository, int $id): Response
+    public function profil(int $id): Response
     {
-        $utilisateur = $utilisateurRepository->find($id);
+        $utilisateur = $this->utilisateurService->recupererUtilisateurParId($id);
 
         if (!$utilisateur) {
-            throw $this->createNotFoundException('Utilisateur not found');
+            throw $this->createNotFoundException('Utilisateur introuvable');
         }
 
         return $this->render('utilisateur/profil.html.twig',[
@@ -37,8 +40,8 @@ final class UtilisateurController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-//            $password = $form->get('password')->getData();
-//            $utilisateur->setPassword($userPasswordHasher->hashPassword($utilisateur, $password));
+            $password = $form->get('password')->getData();
+            $utilisateur->setPassword($userPasswordHasher->hashPassword($utilisateur, $password));
 
             $entityManager->persist($utilisateur);
             $entityManager->flush();
