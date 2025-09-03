@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
+use App\Service\CampusService;
 use App\Service\SortieService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,17 +17,17 @@ final class SortieController extends AbstractController
 {
     public function __construct(
         private SortieService $sortieService,
+        private CampusService $campusService,
     ){}
 
     #[Route('', name: 'list')]
     public function list(): Response
     {
-
         $sorties = $this->sortieService->recupererSorties();
-
+        $campus = $this->campusService->recupererCampus();
         return $this->render('sortie/index.html.twig', [
-            'controller_name' => 'SortieController',
             'sorties' => $sorties,
+            'campusList' => $campus
         ]);
     }
     #[Route('/{id}', name: 'detail', requirements: ['id' => '\d+'])]

@@ -8,26 +8,43 @@
 
         <div class="col-sm-12">
             <h3 class="">Filtrer les sorties</h3>
-            <div style="display: flex;">
+            <div>
                 <div>
-                    <label>Campus</label>
-                    <select class="form-control">
-                        <option>Campus</option>
-                        <option>Campus</option>
-                        <option>Campus</option>
+                    <label for="form_sortie_campus">Campus</label>
+                    <select name="form_sortie_campus" id="form_sortie_campus" class="form-control">
+                        <option value="" selected>Tous les campus</option>
+                        {% for campus in campusList %}
+                            <option value="{{ campus.id }}">{{ campus.nom }}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div>
-                    <label>Le nom de la sortie contient</label>
-                    <input type="text" class="form-control">
+                    <label for="form_sortie_nom">Le nom de la sortie contient</label>
+                    <input id="form_sortie_nom" name="form_sortie_nom" type="text" class="form-control">
                 </div>
                 <div>
-                    <label>Du</label>
-                    <input type="date" class="form-control">
+                    <label for="form_sortie_date_debut">Du</label>
+                    <input name="form_sortie_date_debut" id="form_sortie_date_debut" type="date" class="form-control">
                 </div>
                 <div>
-                    <label>au</label>
-                    <input type="date" class="form-control">
+                    <label for="form_sortie_date_fin">au</label>
+                    <input name="form_sortie_date_fin" id="form_sortie_date_fin" type="date" class="form-control">
+                </div>
+                <div>
+                    <input type="checkbox" id="form_sortie_organisateur" name="form_sortie_organisateur">
+                    <label for="form_sortie_organisateur">Sorties dont je suis l'organisateur/trice</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="form_sortie_inscrit" name="form_sortie_inscrit">
+                    <label for="form_sortie_inscrit">Sorties auxquelles je suis inscrit/e</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="form_sortie_non_inscrit" name="form_sortie_non_inscrit">
+                    <label for="form_sortie_non_inscrit">Sorties auxquelles je ne suis pas inscrit/e</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="form_sortie_passee" name="form_sortie_passee">
+                    <label for="form_sortie_passee">Sorties passées</label>
                 </div>
             </div>
         </div>
@@ -48,7 +65,15 @@
             <tbody>
 
             {% for sortie in sorties %}
-                <tr>
+                <tr
+                    class="ligne_sortie"
+                    id="sortie_{{ loop.index }}"
+                    data-nom="{{ sortie.nom }}"
+                    data-campus="{{ sortie.campus.id }}"
+                    data-date="{{ sortie.dateHeureDebut|date('U') }}"
+                    data-organisateur="{{ (app.user.id == sortie.organisateur.id) ? '1':'0' }}"
+                    data-participant="{{ (app.user in sortie.participants) ? '1':'0' }}"
+                >
                     <td>{{ sortie.nom }}</td>
                     <td>{{ sortie.dateHeureDebut |format_datetime('short', 'short', locale: 'fr') }}</td>
                     <td>{{ sortie.dateLimiteInscription |format_datetime('short', 'short', locale: 'fr') }}</td>
@@ -68,7 +93,6 @@
                             {% elseif sortie.etat.libelle == 'Ouvert' %}
                                 <a>Annuler</a>
                             {% endif %}
-                        {% else %}
                         {% endif %}
                     </td>
                 </tr>
