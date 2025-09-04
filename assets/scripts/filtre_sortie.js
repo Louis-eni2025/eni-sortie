@@ -28,6 +28,9 @@ document.addEventListener('DOMContentLoaded', function(){
         document.getElementById("form_sortie_non_inscrit").checked = false;
         gestionFiltres(sorties)
     })
+    document.getElementById("form_sortie_passee").addEventListener("click", function(){
+        gestionFiltres(sorties)
+    })
 
     function gestionFiltres(sorties){
         reinitialiserAffichage();
@@ -37,6 +40,7 @@ document.addEventListener('DOMContentLoaded', function(){
         gestionOrganisateur(sorties);
         gestionParticipant(sorties)
         gestionNonParticipant(sorties)
+        gestionSortiePassee(sorties)
     }
 
     function gestionFiltreNom(sorties){
@@ -122,12 +126,36 @@ document.addEventListener('DOMContentLoaded', function(){
 
         if(nonParticipant)
         {
-            document.getElementById("form_sortie_inscrit").checked = false;
             sorties.forEach(sortie => {
                 if(sortie.dataset.participant === '1'){
                     sortie.style.display = "none";
                 }
             });
+        }
+    }
+
+    function gestionSortiePassee(sorties){
+        let sortiePassee = document.getElementById("form_sortie_passee").checked;
+        let formDateDebut= document.getElementById('form_sortie_date_debut');
+        let formDateFin = document.getElementById('form_sortie_date_fin');
+
+        const now = Date.now();
+        const date = new Date(now - 24 * 60 * 60 * 1000); // Aujourd'hui - 1 jour
+        const maxDate = date.toISOString().split('T')[0];
+
+        if(sortiePassee)
+        {
+            sorties.forEach(sortie => {
+                if(sortie.dataset.date > Math.floor(now / 1000)){
+                    sortie.style.display = "none";
+                }
+            });
+
+            formDateDebut.max = maxDate;
+            formDateFin.max = maxDate;
+        } else {
+            formDateDebut.removeAttribute("max");
+            formDateFin.removeAttribute("max");
         }
     }
 })
