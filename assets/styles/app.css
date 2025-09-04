@@ -1,3 +1,16 @@
+:root {
+
+    --main-text-color: #012b45;
+
+    --main-bg-color: #e7eff6;
+    --secondary-bg-color: #adcbe3;
+    --button-color: #66a0c5;
+    --button-hover-color: #3381b1;
+    --link-color: #00619e;
+}
+
+
+
 html, body {
     height: 100%;
     margin: 0;
@@ -6,45 +19,27 @@ html, body {
 body{
     display: flex;
     flex-direction: column;
-    background-color: black;
-    color: white;
+    background-color: var(--main-bg-color);
+    color: var(--main-text-color);
 }
 
-main {
-    flex: 1;
-    text-align: center;
+header {
+    background-color: var(--secondary-bg-color);
 }
 
-.navbar {
-    background-color: sandybrown !important;
-    color: black !important;
+.table-striped>tbody>tr:nth-child(odd)>td,
+.table-striped>tbody>tr:nth-child(odd)>th {
+    background-color: var(--main-bg-color)
 }
 
-h1{
-    text-align: center;
+.btn-primary, .btn-primary:visited {
+    background-color: var(--button-color) ;
+    border-color: var(--button-color);
 }
-
-
+.btn-primary:hover, .btn-primary:active {
+    background-color: var(--button-hover-color);
+    border-color: var(--button-hover-color);
+}
 a {
-    text-decoration: none;
-    color: black;
-    border-radius: 5px;
-    padding: 5px;
-}
-
-.card-container {
-    display: flex;
-    margin-top: 20px;
-    justify-content: center;
-}
-
-footer {
-    background-color: sandybrown !important;
-    color: black;
-    padding: 1rem;
-    text-align: center;
-}
-
-#mdp{
-    color: white;
+    color: var(--link-color);
 }
