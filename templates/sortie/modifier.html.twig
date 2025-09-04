@@ -1,13 +1,36 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+    Modifier sortie
+{% endblock %}
 {% block body %}
+    <h1 class="mb-4">Formulaire de sortie</h1>
     {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit" class="btn btn-primary">Enregistrer</button>
+    <div class="row">
+        <div class="col-md-6">
+            {{ form_row(form.nom) }}
+            {{ form_row(form.dateHeureDebut) }}
+            {{ form_row(form.dateLimiteInscription) }}
+            {{ form_row(form.nbInscriptionsMax) }}
+            {{ form_row(form.duree) }}
+            {{ form_row(form.infosSortie) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.campus) }}
+            <div class="d-flex">
+            {{ form_row(form.lieu) }}
+            <i class="bi bi-plus-circle"></i>
+            </div>
+            {{ form_row(form.rue) }}
+            {{ form_row(form.code_postal) }}
+            {{ form_row(form.latitude) }}
+            {{ form_row(form.longitude) }}
+        </div>
+    </div>
+    <div class="mt-4">
+        <button type="submit" class="btn btn-primary">Valider</button>
+    </div>
     {{ form_end(form) }}
 {% endblock %}
 
-{% block title %}
-Modifier sortie
-{% endblock %}
 

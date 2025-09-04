@@ -24,20 +24,36 @@ class SortieType extends AbstractType
             ->add('nbInscriptionsMax')
             ->add('duree')
             ->add('infosSortie')
-
             ->add('campus', EntityType::class, [
                 'class' => Campus::class,
-                'choice_label' => 'id',
+                'choice_label' => 'nom',
             ])
             ->add('lieu', EntityType::class, [
                 'class' => Lieu::class,
                 'choice_label' => 'nom',
             ])
             ->add('rue', TextType::class, [
-                'mapped' => false, // important : ce champ n'est pas dans Sortie
+                'mapped' => false,
+                'disabled' => true,
+                'required' => false,
+            ])
+            ->add('code_postal', TextType::class, [
+                'mapped' => false,
+                'disabled' => true,
+                'required' => false,
+            ])
+            ->add('latitude', TextType::class, [
+                'mapped' => false,
+                'disabled' => true,
+                'required' => false,
+            ])
+            ->add('longitude', TextType::class, [
+                'mapped' => false,
                 'disabled' => true,
                 'required' => false,
             ]);
+
+
 
 
 //                        ->add('etat', EntityType::class, [
