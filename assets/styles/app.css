@@ -25,6 +25,8 @@ body{
 
 header {
     background-color: var(--secondary-bg-color);
+    position: fixed;
+    width:  100%;
 }
 
 .table-striped>tbody>tr:nth-child(odd)>td,
@@ -42,4 +44,26 @@ header {
 }
 a {
     color: var(--link-color);
+}
+
+#login_form {
+    background-color:  var(--secondary-bg-color);
+    margin-top: 20vh;
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid var(--button-hover-color);
+}
+
+#login_form > h1 {
+    width: 100%;
+    text-align: center;
+    font-weight: 600;
+}
+
+.nav-link:hover{
+    text-decoration: underline;
+}
+
+#sortie__list{
+    margin-top: 80px;
 }

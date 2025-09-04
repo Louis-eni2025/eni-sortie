@@ -24,8 +24,8 @@ class UtilisateursFixtures extends Fixture implements DependentFixtureInterface
         $campusList = $manager->getRepository(Campus::class)->findAll();
         $utilisateur = new Utilisateur();
 
-        $utilisateur->setNom($faker->firstName());
-        $utilisateur->setPrenom($faker->lastName());
+        $utilisateur->setNom($faker->lastName());
+        $utilisateur->setPrenom($faker->firstName());
         $utilisateur->setEmail('organisateur@mail.fr');
         $utilisateur->setPassword($this->userPasswordHasher->hashPassword($utilisateur, 'organisateur'));
         $utilisateur->setRoles(['ROLE_USER']);
