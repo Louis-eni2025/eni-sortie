@@ -3,48 +3,54 @@
 {% block title %}Hello SortieController!{% endblock %}
 
 {% block body %}
-    <div>
-        <h1>Listes des sorties</h1>
+    <div id="sortie__list">
+        <h1 class="text-center">Listes des sorties</h1>
 
-        <div class="col-sm-12">
+        <div class="col-sm-12 mb-5">
             <h3 class="">Filtrer les sorties</h3>
-            <div>
-                <div>
-                    <label for="form_sortie_campus">Campus</label>
-                    <select name="form_sortie_campus" id="form_sortie_campus" class="form-control">
-                        <option value="" selected>Tous les campus</option>
-                        {% for campus in campusList %}
-                            <option value="{{ campus.id }}">{{ campus.nom }}</option>
-                        {% endfor %}
-                    </select>
+            <div class="d-flex">
+                <div class="col-sm-3 pe-4">
+                    <div>
+                        <label for="form_sortie_campus">Campus</label>
+                        <select name="form_sortie_campus" id="form_sortie_campus" class="form-control">
+                            <option value="" selected>Tous les campus</option>
+                            {% for campus in campusList %}
+                                <option value="{{ campus.id }}">{{ campus.nom }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label for="form_sortie_nom">Le nom de la sortie contient</label>
+                        <input id="form_sortie_nom" name="form_sortie_nom" type="text" class="form-control">
+                    </div>
                 </div>
-                <div>
-                    <label for="form_sortie_nom">Le nom de la sortie contient</label>
-                    <input id="form_sortie_nom" name="form_sortie_nom" type="text" class="form-control">
+                <div class="col-sm-3 pe-4">
+                    <div>
+                        <label for="form_sortie_date_debut">Du</label>
+                        <input name="form_sortie_date_debut" id="form_sortie_date_debut" type="date" class="form-control">
+                    </div>
+                    <div>
+                        <label for="form_sortie_date_fin">au</label>
+                        <input name="form_sortie_date_fin" id="form_sortie_date_fin" type="date" class="form-control">
+                    </div>
                 </div>
-                <div>
-                    <label for="form_sortie_date_debut">Du</label>
-                    <input name="form_sortie_date_debut" id="form_sortie_date_debut" type="date" class="form-control">
-                </div>
-                <div>
-                    <label for="form_sortie_date_fin">au</label>
-                    <input name="form_sortie_date_fin" id="form_sortie_date_fin" type="date" class="form-control">
-                </div>
-                <div>
-                    <input type="checkbox" id="form_sortie_organisateur" name="form_sortie_organisateur">
-                    <label for="form_sortie_organisateur">Sorties dont je suis l'organisateur/trice</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="form_sortie_inscrit" name="form_sortie_inscrit">
-                    <label for="form_sortie_inscrit">Sorties auxquelles je suis inscrit/e</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="form_sortie_non_inscrit" name="form_sortie_non_inscrit">
-                    <label for="form_sortie_non_inscrit">Sorties auxquelles je ne suis pas inscrit/e</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="form_sortie_passee" name="form_sortie_passee">
-                    <label for="form_sortie_passee">Sorties passées</label>
+                <div class="col-sm-3 pt-4">
+                    <div>
+                        <input type="checkbox" id="form_sortie_organisateur" name="form_sortie_organisateur">
+                        <label for="form_sortie_organisateur">Sorties dont je suis l'organisateur/trice</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="form_sortie_inscrit" name="form_sortie_inscrit">
+                        <label for="form_sortie_inscrit">Sorties auxquelles je suis inscrit/e</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="form_sortie_non_inscrit" name="form_sortie_non_inscrit">
+                        <label for="form_sortie_non_inscrit">Sorties auxquelles je ne suis pas inscrit/e</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="form_sortie_passee" name="form_sortie_passee">
+                        <label for="form_sortie_passee">Sorties passées</label>
+                    </div>
                 </div>
             </div>
         </div>
