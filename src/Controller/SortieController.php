@@ -20,7 +20,7 @@ final class SortieController extends AbstractController
         private CampusService $campusService,
     ){}
 
-    #[Route('/', name: 'app_sortie')]
+    #[Route('/', name: 'list')]
     public function list(): Response
     {
         $sorties = $this->sortieService->recupererSorties();
