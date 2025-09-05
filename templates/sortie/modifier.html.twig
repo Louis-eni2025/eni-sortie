@@ -17,9 +17,11 @@
         </div>
         <div class="col-md-6">
             {{ form_row(form.campus) }}
-            <div class="d-flex">
-            {{ form_row(form.lieu) }}
-            <i class="bi bi-plus-circle"></i>
+            <div class="d-flex align-items-center gap-2">
+                {{ form_row(form.lieu) }}
+                <a href="{{ path('app_lieu_creer',{'from':fromParameter,'id':sortie.id}) }}" class="btn mt-4">
+                    <i class="fa-2x fa-regular fa-square-plus"></i>
+                </a>
             </div>
             {{ form_row(form.rue) }}
             {{ form_row(form.code_postal) }}
@@ -31,6 +33,7 @@
         <button type="submit" class="btn btn-primary">Valider</button>
     </div>
     {{ form_end(form) }}
+    <a class="btn-danger" href="{{ path('app_sortie_supprimer',{'id':sortie.id}) }}">supprimer</a>
 {% endblock %}
 
 

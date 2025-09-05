@@ -61,8 +61,23 @@ final class SortieController extends AbstractController
         return $this->render('sortie/modifier.html.twig', [
             'sortie' => $sortie,
             'form' => $form,
+            'fromParameter'=>'app_sortie_modifier',
         ]);
-
-
     }
+    #[Route('/{id}/supprimer', name: 'supprimer', requirements: ['id' => '\d+'])]
+    public function supprimer(int $id,EntityManagerInterface $entityManager): Response
+    {
+       $sortie = $this->sortieService->recupererSortieParId($id);
+       if (!$sortie) {
+           throw $this->createNotFoundException('Sortie introuvable');
+       }
+       $entityManager->remove($sortie);
+       $entityManager->flush();
+       return $this->redirectToRoute('app_sortie_list');
+    }
+
+
+
+
+
 }

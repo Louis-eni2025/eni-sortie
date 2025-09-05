@@ -9,6 +9,7 @@ use App\Entity\Sortie;
 use App\Entity\Utilisateur;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,8 +20,12 @@ class SortieType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('dateHeureDebut')
-            ->add('dateLimiteInscription')
+            ->add('dateHeureDebut',DateTimeType::class,[
+                'widget' => 'single_text',
+            ])
+            ->add('dateLimiteInscription',DateTimeType::class,[
+                'widget' => 'single_text',
+            ])
             ->add('nbInscriptionsMax')
             ->add('duree')
             ->add('infosSortie')
