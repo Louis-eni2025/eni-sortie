@@ -90,7 +90,9 @@
                     <td>
                         <a>Afficher</a>
                         {% if app.user in sortie.participants %}
-                            <a>Se désister</a>
+                            <a  class="sortie_desinscription" data-id="{{ sortie.id }}" href="">Se désister</a>
+                        {% elseif (sortie.dateLimiteInscription < date() and sortie.participants | length < sortie.nbInscriptionsMax) %}
+                            <a class="sortie_inscription" data-id="{{ sortie.id }}" href="">S'inscrire</a>
                         {% endif %}
                         {% if app.user == sortie.organisateur %}
                             <a>Modifier</a>
