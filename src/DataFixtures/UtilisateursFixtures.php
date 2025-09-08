@@ -48,6 +48,19 @@ class UtilisateursFixtures extends Fixture implements DependentFixtureInterface
         $this->addReference('user_participant', $participant);
         $manager->persist($participant);
 
+        $nonInscrit = new Utilisateur();
+
+        $nonInscrit->setNom($faker->firstName());
+        $nonInscrit->setPrenom($faker->lastName());
+        $nonInscrit->setEmail('non-inscrit@mail.fr');
+        $nonInscrit->setPassword($this->userPasswordHasher->hashPassword($nonInscrit, 'non-inscrit'));
+        $nonInscrit->setRoles(['ROLE_USER']);
+        $nonInscrit->setTelephone($faker->phoneNumber());
+        $nonInscrit->setEstActif(true);
+        $nonInscrit->setCampus($faker->randomElement($campusList));
+        $this->addReference('user_nonInscrit', $nonInscrit);
+        $manager->persist($nonInscrit);
+
         $admin = new Utilisateur();
 
         $admin->setNom($faker->firstName());
