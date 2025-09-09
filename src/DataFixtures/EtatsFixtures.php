@@ -14,7 +14,8 @@ class EtatsFixtures extends Fixture
         "Clôturée",
         "Activité en cours",
         "Passé",
-        "Annulée"
+        "Annulée",
+        "Historisée"
     ];
     public function load(ObjectManager $manager): void
     {

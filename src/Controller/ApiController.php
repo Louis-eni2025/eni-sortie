@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/api', name: 'app_api_')]
-final class ApiController extends AbstractController
+class ApiController extends AbstractController
 {
     public function __construct(
         private readonly LieuService   $lieuService,
@@ -40,8 +40,6 @@ final class ApiController extends AbstractController
     #[Route('/inscription/{id}', name: 'inscription_sortie', methods: ['GET'])]
     public function inscriptionSortie(int $id): Response
     {
-        $sortie = $this->sortieService->recupererSortieParId($id);
-
         $utilisateur = $this->getUser();
         if (!$utilisateur) {
             $retour = [
@@ -50,6 +48,8 @@ final class ApiController extends AbstractController
             ];
             return new JsonResponse($retour, Response::HTTP_METHOD_NOT_ALLOWED);
         }
+
+        $sortie = $this->sortieService->recupererSortieParId($id);
 
         if (!$sortie) {
             $retour = [
@@ -69,7 +69,7 @@ final class ApiController extends AbstractController
             }
         }
 
-        if($sortie->getDateLimiteInscription() > new DateTime()) {
+        if($sortie->getDateLimiteInscription() < new DateTime()) {
             $retour = [
                 'message' => 'La date limite d\'inscription est dépassée',
                 'erreur' => true
@@ -94,7 +94,7 @@ final class ApiController extends AbstractController
             'erreur' => false
         ];
 
-        return $this->json($retour, Response::HTTP_OK);
+        return new JsonResponse($retour, Response::HTTP_OK);
     }
 
     #[Route('/desinscription/{id}', name: 'desinscription_sortie', methods: ['GET'])]
@@ -121,8 +121,7 @@ final class ApiController extends AbstractController
         }
 
         foreach ($sortie->getParticipants() as $participant) {
-            dump($participant->getId());
-            dump($utilisateur->getId());
+
             if($participant->getId() === $utilisateur->getId()){
 
                 $sortie->removeParticipant($utilisateur);

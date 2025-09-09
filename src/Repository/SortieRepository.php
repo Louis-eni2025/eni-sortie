@@ -16,20 +16,17 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
-//    /**
-//     * @return Sortie[] Returns an array of Sortie objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function recupererSortieAHistoriser(){
+
+        return $this->createQueryBuilder('s')
+            ->addSelect('e')
+            ->where('s.dateHeureDebut < :dateLimite')
+            ->andWhere('e.libelle != \'Historisée\'')
+            ->join('s.etat', 'e')
+            ->setParameter('dateLimite', (new \DateTime())->modify('-30 days'))
+            ->getQuery()
+            ->getResult();
+    }
 
     public function recupererToutesSorties(): array
     {
@@ -40,6 +37,10 @@ class SortieRepository extends ServiceEntityRepository
             ->join('s.lieu', 'l')
             ->join('s.organisateur', 'o')
             ->join('s.participants', 'p')
+            ->where('e.libelle not in (:etats)')
+            ->setParameter('etats', ['Créée', 'Historisée'])
+            ->orderBy('e.libelle', 'DESC')
+            ->addorderBy('s.dateHeureDebut', 'ASC')
             ->getQuery()
             ->getResult();
     }
