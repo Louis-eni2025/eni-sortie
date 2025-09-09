@@ -3,16 +3,16 @@
 {% block title %}Détail de la sortie{% endblock %}
 
 {% block body %}
-    <h1>Détail de la sortie</h1>
+    <h1 class="h1Page">Détail de la sortie</h1>
     <div class="container">
         <div class="card col-sm-8 mx-auto">
             <div class="card-body d-flex justify-content-between text-start">
                 <div>
                     <h6 class="card-subtitle mb-2 text-body-secondary"><span>Nom de la sortie : </span> {{ sortie.nom }}</h6>
                     <h6 class="card-subtitle mb-2 text-body-secondary"><span>Date et heure de la sortie
-                        : </span>{{ sortie.dateHeureDebut | date ("m/d/Y h:i") }}</h6>
+                        : </span>{{ sortie.dateHeureDebut | date ("d/m/Y h:i") }}</h6>
                     <h6 class="card-subtitle mb-2 text-body-secondary"><span>Inscription Max
-                        : </span>{{ sortie.dateLimiteInscription | date ("m/d/Y") }}</h6>
+                        : </span>{{ sortie.dateLimiteInscription | date ("d/m/Y") }}</h6>
                     <h6 class="card-subtitle mb-2 text-body-secondary"><span>Date limite d'inscription
                         : </span>{{ sortie.nbInscriptionsMax }}</h6>
                     <h6 class="card-subtitle mb-2 text-body-secondary"><span>Nombre de places : </span>{{ sortie.duree }}</h6>

@@ -22,22 +22,24 @@ class UtilisateurType extends AbstractType
         $builder
             ->add('email')
 //            ->add('roles')
-//            ->add('password', RepeatedType::class, [
-//                'type' => PasswordType::class,
-//                'first_options'  => [
-//                    'label' => 'Mot de passe',
-//                    'attr' => ['autocomplete' => 'new-password'],
-//                ],
-//                'second_options' => [
-//                    'label' => 'Confirmez le mot de passe',
-//                    'attr' => ['autocomplete' => 'new-password'],
-//                ],
-//                'invalid_message' => 'Les mots de passe ne correspondent pas.'
-//            ])
+            ->add('password', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'required' => false,
+                'mapped' => false,
+                'first_options'  => [
+                    'label' => 'Mot de passe',
+                    'attr' => ['autocomplete' => 'new-password'],
+                ],
+                'second_options' => [
+                    'label' => 'Confirmez le mot de passe',
+                    'attr' => ['autocomplete' => 'new-password'],
+                ],
+                'invalid_message' => 'Les mots de passe ne correspondent pas.'
+            ])
             ->add('nom')
             ->add('prenom')
             ->add('telephone')
-            ->add('estActif')
+//            ->add('estActif')
 //            ->add('sortiesInscrit', EntityType::class, [
 //                'class' => Sortie::class,
 //                'choice_label' => 'id',

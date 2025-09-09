@@ -14,6 +14,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+
 #[Route('/sortie', name: 'app_sortie_')]
 final class SortieController extends AbstractController
 {
@@ -75,6 +77,7 @@ final class SortieController extends AbstractController
 
     }
     #[Route('/{id}/modifier', name: 'modifier', requirements: ['id' => '\d+'])]
+    #[IsGranted('SORTIE_EDIT', 'sortie')]
     public function modifier(EntityManagerInterface $entityManager,Request $request,int $id,Sortie $sortie): Response
     {
         $form = $this->createForm(SortieType::class, $sortie);
@@ -94,6 +97,7 @@ final class SortieController extends AbstractController
         ]);
     }
     #[Route('/{id}/supprimer', name: 'supprimer', requirements: ['id' => '\d+'])]
+    #[IsGranted('SORTIE_EDIT', 'sortie')]
     public function supprimer(int $id,EntityManagerInterface $entityManager): Response
     {
        $sortie = $this->sortieService->recupererSortieParId($id);
@@ -106,15 +110,30 @@ final class SortieController extends AbstractController
     }
 
     #[Route('/{id}/annuler',name: 'annuler', requirements: ['id' => '\d+'])]
-    public function annuler(int $id,EntityManagerInterface $entityManager,Request $request): Response
+    #[IsGranted('SORTIE_EDIT', 'sortie')]
+    public function annuler(int $id,EntityManagerInterface $entityManager,Request $request,Sortie $sortie): Response
     {
         $sortie = $this->sortieService->recupererSortieParId($id);
+
+        if($sortie->getDateLimiteInscription() < new \DateTime()){
+            $this->addFlash('error','Vous ne pouvez plus annulé cette sortie');
+            return $this->redirectToRoute('app_sortie_detail',['id'=>$id]);
+        }
+
         $form = $this->createForm(AnnulerSortieType::class, $sortie);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $motif = $form->get('motif')->getData();
+            $infoSortie = $sortie->getInfosSortie() ??'';
+            $sortie->setInfosSortie($infoSortie . "\n[Motif d'annulation : " . $motif . "]");
+
+            $etatAnnule = $sortie->getEtat();
+            $etatAnnule->setLibelle('Annulée');
+
             $entityManager->persist($sortie);
             $entityManager->flush();
-            return $this->redirectToRoute('app_sortie_list');
+            return $this->redirectToRoute('app_sortie_detail',['id'=>$id]);
         }
 
         return $this->render('sortie/annuler.html.twig', [
