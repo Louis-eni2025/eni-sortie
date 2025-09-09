@@ -11,7 +11,7 @@ class SortieService
 
     public function recupererSorties():  array
     {
-        return $this->sortieRepository->findAll();
+        return $this->sortieRepository->recupererToutesSorties();
     }
 
     public function recupererSortieParId(int $id):  ? Sortie
