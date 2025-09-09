@@ -1,27 +1,52 @@
 <nav class="navbar navbar-expand-lg ">
     <div class="container-fluid">
         <img id="logoBucket" src="{{ asset('img/eni_800x800.jpg') }}" alt="logo" width="40px" class="me-3">
-        <a class="navbar-brand" href="#">ENI - Sortie</a>
+        <a id="titreNav" class="navbar-brand" href="#">ENI - Sortie</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="{{ path('app_sortie_list') }}">Accueil</a>
-                </li>
+            <ul class="navbar-nav ms-auto">
                 {% if app.user %}
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{{ path('app_sortie_list') }}">Accueil</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="{{ path('app_sortie_creer') }}">Créer une sortie</a>
+                    </li>
+                {% endif %}
+            </ul>
+            <ul class="navbar-nav ms-auto">
+                {% if app.user %}
+                    {% if app.user.imageName %}
+                        <li>
+                            <img src="{{ asset('images/profil/' ~ app.user.imageName) }}"
+                                 alt="Photo de profil"
+                                 class="rounded-circle"
+                                 style="width:30px; height:30px; object-fit:cover;">
+                        </li>
+                    {% else %}
+                        <li>
+                            <div class="rounded-circle"
+                                 style="width:30px; height:30px; background-color:black;">
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endif %}
+                {% if app.user %}
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="{{ path('utilisateur_profil', {id: app.user.id}) }}">{{ app.user.nom ~ " " ~ app.user.prenom }}</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link"
                            href="{{ path('app_logout') }}">Se déconnecter</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           href="{{ path('utilisateur_profil', {id: app.user.id}) }}">{{ app.user.nom ~ " " ~ app.user.prenom}}</a>
-                    </li>
                 {% endif %}
             </ul>
+
+
         </div>
     </div>
 </nav>

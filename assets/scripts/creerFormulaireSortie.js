@@ -1,22 +1,22 @@
 document.addEventListener("DOMContentLoaded",function(){
-    let champsLieu = document.getElementById("sortie_lieu")
+    let champsLieu = document.getElementById("creer_sortie_lieu")
 
     champsLieu.addEventListener("change",async function(){
         let lieuId = this.value
         try{
             const lieu = await getLieu(lieuId)
-            const champsRue = document.getElementById("sortie_rue")
+            const champsRue = document.getElementById("creer_sortie_rue")
             champsRue.value = lieu.rue;
-            const champsCpo = document.getElementById("sortie_code_postal")
+            const champsCpo = document.getElementById("creer_sortie_code_postal")
             champsCpo.value = lieu.ville.codePostal;
-            const champsLatitude = document.getElementById("sortie_latitude")
+            const champsLatitude = document.getElementById("creer_sortie_latitude")
             champsLatitude.value = lieu.latitude
-            const champsLongitude = document.getElementById("sortie_longitude")
+            const champsLongitude = document.getElementById("creer_sortie_longitude")
             champsLongitude.value = lieu.longitude
 
             console.log(lieu)
         }catch (e){
-        console.log(e)
+            console.log(e)
         }
     })
 })

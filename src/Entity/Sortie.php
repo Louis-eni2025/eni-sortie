@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: SortieRepository::class)]
 class Sortie
@@ -17,21 +19,38 @@ class Sortie
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le nom est obligatoire.")]
+    #[Assert\Length(
+        min: 3,
+        max: 255,
+        minMessage: "Le nom doit contenir au moins {{ limit }} caractères",
+        maxMessage: "Le nom ne peut pas dépasser {{ limit }} caractères"
+    )]
     private ?string $nom = null;
 
     #[ORM\Column]
+    #[Assert\Type(\DateTime::class)]
+    #[Assert\GreaterThan("today", message: "La sortie doit commencer dans le futur.")]
     private ?\DateTime $dateHeureDebut = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "La durée est obligatoire.")]
+    #[Assert\Positive(message: "La durée doit être un nombre positif.")]
     private ?int $duree = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Assert\NotBlank(message: "La date limite d'inscription est obligatoire.")]
+    #[Assert\LessThan(propertyPath: "dateHeureDebut", message: "La date limite d'inscription doit être avant la date de début.")]
     private ?\DateTime $dateLimiteInscription = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $nbInscriptionsMax = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\Length(
+        max: 1000,
+        maxMessage: "Les informations de la sortie ne peuvent pas dépasser {{ limit }} caractères."
+    )]
     private ?string $infosSortie = null;
 
     #[ORM\ManyToOne()]

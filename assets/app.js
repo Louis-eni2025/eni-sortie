@@ -8,6 +8,7 @@ import './bootstrap.js';
 import './styles/app.css';
 import './scripts/filtre_sortie.js';
 import './scripts/modificationFormulaireSortie.js';
+import './scripts/creerFormulaireSortie.js';
 import './scripts/inscriptionSortie.js';
 // import './scripts/visibiliteMdp.js';
 

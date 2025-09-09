@@ -1,10 +1,9 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}
-    Modifier sortie
+    Créer une sortie
 {% endblock %}
 {% block body %}
-    <h1 class="mb-4">Modifier une sortie</h1>
+    <h1 class="mb-4">Création d'une sortie</h1>
     {{ form_start(form) }}
     {{ form_errors(form) }}
     <div class="row">
@@ -24,22 +23,16 @@
                     <i class="fa-2x fa-regular fa-square-plus"></i>
                 </a>
             </div>
+            {{ form_row(form.ville) }}
             {{ form_row(form.rue) }}
             {{ form_row(form.code_postal) }}
             {{ form_row(form.latitude) }}
             {{ form_row(form.longitude) }}
         </div>
     </div>
-    <div class="mt-4 d-flex justify-content-center gap-2">
+    <div class="d-flex justify-content-center mt-4">
         <button type="submit" class="btn btn-primary">Valider</button>
-        <a class="btn btn-danger" href="{{ path('app_sortie_supprimer',{'id':sortie.id}) }}"
-           onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette sortie ?');">Supprimer</a>
-        <a class="btn btn-warning" href="{{ path('app_sortie_annuler',{'id':sortie.id}) }}">Annuler</a>
-        <a class="btn btn-primary" href="{{ path('app_sortie_list') }}">Retour</a>
-
     </div>
     {{ form_end(form) }}
-
 {% endblock %}
-
 
