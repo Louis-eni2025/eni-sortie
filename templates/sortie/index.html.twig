@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello SortieController!{% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block body %}
     <div id="sortie__list">
-        <h1 class="text-center">Liste des sorties</h1>
+        <h1 class="text-center h1Page">Liste des sorties</h1>
 
         <div class="col-sm-12 mb-5">
             <h3 class="">Filtrer les sorties</h3>
@@ -92,7 +92,7 @@
                         {% if app.user in sortie.participants %}
                             <a>Se désister</a>
                         {% endif %}
-                        {% if app.user == sortie.organisateur %}
+                        {% if is_granted('SORTIE_EDIT', sortie) %}
                             <a>Modifier</a>
                             {% if sortie.etat.libelle == 'En création' %}
                                 <a>Publier</a>

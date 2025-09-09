@@ -1,19 +1,18 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <h1>Modifier profil</h1>
+    <h1 class="h1Page">Modifier profil</h1>
 
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                {{ form_start(form) }}
-                {{ form_widget(form) }}
-                <button class="btn btn-primary ">
-                    {{ button_label|default('Modifier') }}
-                </button>
-                {{ form_end(form) }}
-            </div>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <div class="mt-4 d-flex justify-content-center gap-2">
+            <button class="btn btn-primary mt-4 d-flex justify-content-center ">
+                {{ button_label|default('Modifier') }}
+            </button>
         </div>
+        {{ form_end(form) }}
     </div>
+
 
 {% endblock %}
 
