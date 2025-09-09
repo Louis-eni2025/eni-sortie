@@ -33,20 +33,14 @@ class SortieRepository extends ServiceEntityRepository
 
     public function recupererToutesSorties(): array
     {
-        return $this->getEntityManager()
-            ->createQuery('
-            SELECT 
-            s FROM App\Entity\Sortie s, 
-            App\Entity\Etat e, 
-            App\Entity\Campus c,
-            App\Entity\Lieu l,
-            App\Entity\Utilisateur u
-            WHERE s.campus = c.id
-            AND s.lieu = l.id
-            AND s.organisateur = u.id
-            AND s.etat = e.id
-            
-            ')
+        return $this->createQueryBuilder('s')
+            ->addSelect('e', 'c', 'l', 'o', 'p')
+            ->join('s.etat', 'e')
+            ->join('s.campus', 'c')
+            ->join('s.lieu', 'l')
+            ->join('s.organisateur', 'o')
+            ->join('s.participants', 'p')
+            ->getQuery()
             ->getResult();
     }
 }
