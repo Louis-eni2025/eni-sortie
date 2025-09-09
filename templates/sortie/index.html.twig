@@ -91,7 +91,7 @@
                         <a>Afficher</a>
                         {% if app.user in sortie.participants %}
                             <a  class="sortie_desinscription" data-id="{{ sortie.id }}" href="">Se désister</a>
-                        {% elseif (sortie.dateLimiteInscription < date() and sortie.participants | length < sortie.nbInscriptionsMax) %}
+                        {% elseif (sortie.dateLimiteInscription < date() and sortie.participants | length < sortie.nbInscriptionsMax and (app.user != sortie.organisateur)) %}
                             <a class="sortie_inscription" data-id="{{ sortie.id }}" href="">S'inscrire</a>
                         {% endif %}
                         {% if app.user == sortie.organisateur %}
