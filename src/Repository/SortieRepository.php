@@ -31,13 +31,16 @@ class SortieRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Sortie
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function recupererToutesSorties(): array
+    {
+        return $this->createQueryBuilder('s')
+            ->addSelect('e', 'c', 'l', 'o', 'p')
+            ->join('s.etat', 'e')
+            ->join('s.campus', 'c')
+            ->join('s.lieu', 'l')
+            ->join('s.organisateur', 'o')
+            ->join('s.participants', 'p')
+            ->getQuery()
+            ->getResult();
+    }
 }
