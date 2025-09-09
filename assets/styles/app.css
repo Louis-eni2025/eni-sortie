@@ -120,4 +120,7 @@ a {
 .imgProfil{
     border: 2px solid var(--main-text-color) ;
 }
+.flash{
+    margin-top: 80px;
+}
 
