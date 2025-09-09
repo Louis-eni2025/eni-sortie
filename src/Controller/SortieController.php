@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Sortie;
+use App\Form\AnnulerSortieType;
+use App\Form\CreerSortieType;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
 use App\Service\CampusService;
@@ -30,6 +32,33 @@ final class SortieController extends AbstractController
             'campusList' => $campus
         ]);
     }
+
+    #[Route('/creer', name: 'creer')]
+    public function creer(Request $request,SortieService $sortieService): Response
+    {
+        $sortie = new Sortie();
+        $utilisateur = $this->getUser();
+        if ($utilisateur && $utilisateur->getCampus()) {
+            $sortie->setCampus($utilisateur->getCampus());
+        }
+        $form = $this->createForm(CreerSortieType::class, $sortie);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $sortieService->creerSortie($sortie,$utilisateur);
+            return $this->redirectToRoute('app_sortie_list');
+        }
+        return $this->render('sortie/creer.html.twig', [
+            'sortie' => $sortie,
+            'form' => $form,
+            'fromParameter'=>'app_sortie_creer',
+
+        ]);
+    }
+
+
+
+
     #[Route('/{id}', name: 'detail', requirements: ['id' => '\d+'])]
     public function detail(int $id): Response
     {
@@ -76,7 +105,23 @@ final class SortieController extends AbstractController
        return $this->redirectToRoute('app_sortie_list');
     }
 
+    #[Route('/{id}/annuler',name: 'annuler', requirements: ['id' => '\d+'])]
+    public function annuler(int $id,EntityManagerInterface $entityManager,Request $request): Response
+    {
+        $sortie = $this->sortieService->recupererSortieParId($id);
+        $form = $this->createForm(AnnulerSortieType::class, $sortie);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_sortie_list');
+        }
 
+        return $this->render('sortie/annuler.html.twig', [
+            'sortie' => $sortie,
+            'form' => $form,
+        ]);
+    }
 
 
 

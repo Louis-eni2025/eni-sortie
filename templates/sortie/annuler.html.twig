@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>Annuler une sortie</h1>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <div class="mt-4 d-flex justify-content-center gap-2" >
+    <button type="submit" class="btn btn-primary">Valider</button>
+    </div>
+    {{ form_end(form) }}
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
