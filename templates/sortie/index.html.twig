@@ -90,16 +90,16 @@
                     <td>
                         <a>Afficher</a>
                         {% if app.user in sortie.participants %}
-                            <a  class="sortie_desinscription" data-id="{{ sortie.id }}" href="">Se désister</a>
+                            <a class="sortie_desinscription" data-id="{{ sortie.id }}" href="">Se désister</a>
                         {% elseif (sortie.dateLimiteInscription < date() and sortie.participants | length < sortie.nbInscriptionsMax and (app.user != sortie.organisateur)) %}
                             <a class="sortie_inscription" data-id="{{ sortie.id }}" href="">S'inscrire</a>
                         {% endif %}
                         {% if is_granted('SORTIE_EDIT', sortie) %}
-                            <a>Modifier</a>
+                            <a href="{{ path('app_sortie_modifier', {'id': sortie.id}) }}">Modifier</a>
                             {% if sortie.etat.libelle == 'En création' %}
-                                <a>Publier</a>
-                            {% elseif sortie.etat.libelle == 'Ouvert' %}
-                                <a>Annuler</a>
+                                <a href="">Publier</a>
+                            {% elseif sortie.etat.libelle == 'Ouverte' %}
+                                <a href="{{ path('app_sortie_annuler', {'id': sortie.id}) }}">Annuler</a>
                             {% endif %}
                         {% endif %}
                     </td>
