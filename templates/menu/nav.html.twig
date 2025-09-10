@@ -16,6 +16,19 @@
                         <a class="nav-link" href="{{ path('app_sortie_creer') }}">Créer une sortie</a>
                     </li>
                 {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                           role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Dashboard
+                        </a>
+
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="{{ path('app_admin_inscription') }}">Inscrire</a>
+                            <a class="dropdown-item" href="{{ path('app_admin_gerer') }}">Gérer</a>
+                        </div>
+                    </li>
+                {% endif %}
             </ul>
             <ul class="navbar-nav ms-auto">
                 {% if app.user %}

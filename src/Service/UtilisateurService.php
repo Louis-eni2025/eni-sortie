@@ -13,5 +13,10 @@ class UtilisateurService
         return $this->utilisateurRepository->find($id);
     }
 
+    public function recupererToutLesUtilisateurs()
+    {
+       return $this->utilisateurRepository->findAll();
+    }
+
 
 }
