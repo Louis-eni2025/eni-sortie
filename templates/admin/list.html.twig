@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 class="h1Page">Gérer utilisateurs</h1>
+    <div class="d-flex flex-wrap justify-content-center gap-3">
+        {% for utilisateur in utilisateurs %}
+            <div class="card" style="width: 18rem;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ utilisateur.nom }}</h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">{{ utilisateur.prenom }}</h6>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">{{ utilisateur.email }}</h6>
+                    {% if utilisateur.imageName %}
+                        <img class="imgProfil rounded-circle mb-2"
+                             src="{{ asset('images/profil/' ~ utilisateur.imageName) }}"
+                             alt="Photo de {{ utilisateur.nom }}"
+                             style="max-width:100px; height:100px; object-fit:cover;">
+                    {% else %}
+                        <img class="rounded-circle mb-2" style="width:100px; height:100px; background:black;">
+                    {% endif %}
+                    <p class="card-text">{{ utilisateur.telephone }}</p>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a class="btn {% if utilisateur.estActif %}btn-warning{% else %}btn-success{% endif %}"
+                           href="{{ path('app_admin_desactiver', {'id': utilisateur.id}) }}">
+                            {% if utilisateur.estActif %}
+                                Désactiver
+                            {% else %}
+                                Réactiver
+                            {% endif %}
+                        </a>
+                    {% endif %}
+                    <a class="btn btn-danger"
+                       href="{{ path('app_admin_supprimer', {'id': utilisateur.id}) }}"
+                       onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">
+                        Supprimer
+                    </a>
+                </div>
+            </div>
+        {% else %}
+            <p>Aucun utilisateur trouvé.</p>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block title %}
+    Gérer utilisateurs
+{% endblock %}

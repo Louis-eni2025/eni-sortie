@@ -24,13 +24,19 @@ class SortieServiceTest extends TestCase
         $this->etatRepository = $this->createMock(EtatRepository::class);
         $this->em = $this->createMock(EntityManagerInterface::class);
 
-        $this->service = $this->getMockBuilder(SortieService::class)
-            ->setConstructorArgs([
-                $this->sortieRepository,
-                $this->em,
-                $this->etatRepository
-            ])
-            ->getMock();
+//        $this->service = $this->getMockBuilder(SortieService::class)
+//            ->setConstructorArgs([
+//                $this->sortieRepository,
+//                $this->em,
+//                $this->etatRepository
+//            ])
+//            ->getMock();
+        $this->service = new SortieService(
+            $this->sortieRepository,
+            $this->em,
+            $this->etatRepository
+        );
+
 
     }
     public function testCreerSortie()
