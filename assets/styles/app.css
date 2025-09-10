@@ -124,3 +124,6 @@ a {
     margin-top: 80px;
 }
 
+header {
+    z-index: 99999999999999999;
+}
