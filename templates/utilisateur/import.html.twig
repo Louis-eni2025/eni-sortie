@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <h1 class="h1Page">Import user</h1>
+
+    <div class="container">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <div class="mt-4 d-flex justify-content-center gap-2">
+            <button class="btn btn-primary mt-4 d-flex justify-content-center ">
+                {{ button_label|default('Modifier') }}
+            </button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+
+
+{% endblock %}
+
+
+

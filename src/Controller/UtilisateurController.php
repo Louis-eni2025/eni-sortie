@@ -3,16 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\Utilisateur;
+use App\Form\ImportUserType;
 use App\Form\UtilisateurType;
-use App\Repository\UtilisateurRepository;
 use App\Service\UtilisateurService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+
 #[Route('/utilisateur', name: 'utilisateur_')]
 final class UtilisateurController extends AbstractController
 {
@@ -56,6 +56,31 @@ final class UtilisateurController extends AbstractController
         return $this->render('utilisateur/modifier_profil.html.twig', [
             'utilisateur' => $utilisateur,
             'form' => $form,
+        ]);
+    }
+
+    #[Route('/import', name: 'import')]
+    public function importUser(Request $request): Response
+    {
+        $form = $this->createForm(ImportUserType::class);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $fichier = $form->get('fichier')->getData();
+
+            if ($fichier) {
+                $this->utilisateurService->importerUtilisateursDepuisCSV($fichier);
+                $this->addFlash('success', 'Import réussie !');
+                return $this->redirectToRoute('app_home');
+            } else {
+                $this->addFlash('error', 'Veuillez sélectionner un fichier CSV.');
+            }
+        }
+
+
+        return $this->render('utilisateur/import.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 }
