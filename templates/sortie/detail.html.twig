@@ -58,7 +58,7 @@
         {% if app.user.id == sortie.organisateur.id or is_granted('ROLE_ADMIN') %}
             <div class="mt-4 d-flex justify-content-center gap-2">
                 <a class="btn btn-primary" href="{{ path('app_sortie_modifier',{'id':sortie.id}) }}">Modifier</a>
-                {% if sortie.etat.libelle != 'Annulée' %}
+                {% if sortie.etat.libelle == 'Ouverte' and sortie.dateHeureDebut > date() %}
                     <a href="{{ path('app_sortie_annuler', {'id': sortie.id}) }}" class="btn btn-danger">
                         Annuler la sortie
                     </a>

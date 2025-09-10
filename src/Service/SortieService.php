@@ -26,9 +26,15 @@ class SortieService
         return $this->sortieRepository->find($id);
     }
 
-    public function creerSortie(Sortie $sortie,Utilisateur $organisateur): void
+    public function creerSortie(Sortie $sortie,Utilisateur $organisateur, string $action): void
     {
-        $etatCree = $this->etatRepository->findOneBy(['libelle' => 'Créée']);
+        if($action === 'publier'){
+            $libelle = 'Ouverte';
+        } else {
+            $libelle = 'Créée';
+        }
+
+        $etatCree = $this->etatRepository->findOneBy(['libelle' => $libelle]);
         if (!$etatCree) {
             throw new \RuntimeException("L'état 'Créée' n'existe pas en base !");
         }

@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded",async function(){
+    console.log("ghelelefllael")
     let champsLieu = document.getElementById("creer_sortie_lieu")
     let lieuId = champsLieu.value
     try{

@@ -49,7 +49,10 @@ final class SortieController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $sortieService->creerSortie($sortie,$utilisateur);
+
+            $action = $request->request->get('action');
+
+            $sortieService->creerSortie($sortie, $utilisateur, $action);
             return $this->redirectToRoute('app_sortie_list');
         }
         return $this->render('sortie/creer.html.twig', [

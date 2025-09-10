@@ -32,9 +32,11 @@
     </div>
     <div class="mt-4 d-flex justify-content-center gap-2">
         <button type="submit" class="btn btn-primary">Valider</button>
-        <a class="btn btn-danger" href="{{ path('app_sortie_supprimer',{'id':sortie.id}) }}"
-           onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette sortie ?');">Supprimer</a>
-        <a class="btn btn-warning" href="{{ path('app_sortie_annuler',{'id':sortie.id}) }}">Annuler</a>
+{#        <a class="btn btn-danger" href="{{ path('app_sortie_supprimer',{'id':sortie.id}) }}"#}
+{#           onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette sortie ?');">Supprimer</a>#}
+        {% if sortie.etat.libelle == 'Ouverte' and sortie.dateHeureDebut > date() %}
+            <a class="btn btn-warning" href="{{ path('app_sortie_annuler',{'id':sortie.id}) }}">Annuler</a>
+        {% endif %}
         <a class="btn btn-primary" href="{{ path('app_sortie_list') }}">Retour</a>
 
     </div>
