@@ -28,9 +28,8 @@ document.addEventListener("DOMContentLoaded",async function(){
             const champsLongitude = document.getElementById("sortie_longitude")
             champsLongitude.value = lieu.longitude
 
-            console.log(lieu)
         }catch (e){
-        console.log(e)
+            console.error(e)
         }
     })
 })

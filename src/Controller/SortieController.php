@@ -117,8 +117,8 @@ final class SortieController extends AbstractController
     {
         $sortie = $this->sortieService->recupererSortieParId($id);
 
-        if($sortie->getDateHeureDebut() > new \DateTime()){
-            $this->addFlash('error','Vous ne pouvez plus annulé cette sortie');
+        if($sortie->getDateHeureDebut() < new \DateTime()){
+            $this->addFlash('error','Vous ne pouvez plus annuler cette sortie');
             return $this->redirectToRoute('app_sortie_detail',['id'=>$id]);
         }
 

@@ -91,7 +91,13 @@
                         <a href="{{ path('app_sortie_detail', {'id': sortie.id}) }}">Afficher</a>
                         {% if app.user in sortie.participants %}
                             <a class="sortie_desinscription" data-id="{{ sortie.id }}" href="">Se désister</a>
-                        {% elseif (sortie.dateLimiteInscription < date() and sortie.participants | length < sortie.nbInscriptionsMax and (app.user != sortie.organisateur)) %}
+                        {% elseif (
+                            (sortie.dateLimiteInscription > date())
+                            and
+                            (sortie.participants | length < sortie.nbInscriptionsMax)
+                            and
+                            (app.user != sortie.organisateur))
+                        %}
                             <a class="sortie_inscription" data-id="{{ sortie.id }}" href="">S'inscrire</a>
                         {% endif %}
                         {% if is_granted('SORTIE_EDIT', sortie) %}
