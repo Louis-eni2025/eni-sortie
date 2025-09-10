@@ -38,7 +38,7 @@ final class SortieVoter extends Voter
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
             case self::EDIT:
-                return $user === $subject->getOrganisateur();
+                return $user === $subject->getOrganisateur()|| $this->security->isGranted('ROLE_ADMIN');
 
             case self::DELETE:
                 return ($user === $subject->getOrganisateur() || $this->security->isGranted('ROLE_ADMIN'));
