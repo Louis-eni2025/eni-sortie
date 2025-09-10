@@ -98,7 +98,7 @@
                             <a href="{{ path('app_sortie_modifier', {'id': sortie.id}) }}">Modifier</a>
                             {% if sortie.etat.libelle == 'En création' %}
                                 <a href="">Publier</a>
-                            {% elseif sortie.etat.libelle == 'Ouverte' %}
+                            {% elseif sortie.etat.libelle == 'Ouverte' and sortie.dateHeureDebut > date()%}
                                 <a href="{{ path('app_sortie_annuler', {'id': sortie.id}) }}">Annuler</a>
                             {% endif %}
                         {% endif %}

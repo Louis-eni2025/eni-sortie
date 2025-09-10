@@ -24,7 +24,7 @@ class SortiesFixtures extends Fixture implements DependentFixtureInterface
         $lieux = $manager->getRepository(Lieu::class)->findAll();
         $etats = $manager->getRepository(Etat::class)->findAll();
 
-        for($i = 0; $i < 20; $i++){
+        for($i = 0; $i < 50; $i++){
             $sortie = new Sortie();
             $dateDebut = $faker->dateTimeBetween('-5 months', '+5 months');
 

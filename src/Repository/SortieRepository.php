@@ -36,7 +36,7 @@ class SortieRepository extends ServiceEntityRepository
             ->join('s.campus', 'c')
             ->join('s.lieu', 'l')
             ->join('s.organisateur', 'o')
-            ->join('s.participants', 'p')
+            ->leftJoin('s.participants', 'p')
             ->where('e.libelle not in (:etats)')
             ->setParameter('etats', ['Créée', 'Historisée'])
             ->orderBy('e.libelle', 'DESC')

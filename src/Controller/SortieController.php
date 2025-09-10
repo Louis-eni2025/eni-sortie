@@ -6,6 +6,7 @@ use App\Entity\Sortie;
 use App\Form\AnnulerSortieType;
 use App\Form\CreerSortieType;
 use App\Form\SortieType;
+use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use App\Service\CampusService;
 use App\Service\SortieService;
@@ -22,6 +23,7 @@ final class SortieController extends AbstractController
     public function __construct(
         private SortieService $sortieService,
         private CampusService $campusService,
+        private EtatRepository $etatRepository
     ){}
 
     #[Route('/', name: 'list')]
@@ -115,7 +117,7 @@ final class SortieController extends AbstractController
     {
         $sortie = $this->sortieService->recupererSortieParId($id);
 
-        if($sortie->getDateLimiteInscription() < new \DateTime()){
+        if($sortie->getDateHeureDebut() > new \DateTime()){
             $this->addFlash('error','Vous ne pouvez plus annulé cette sortie');
             return $this->redirectToRoute('app_sortie_detail',['id'=>$id]);
         }
@@ -128,8 +130,13 @@ final class SortieController extends AbstractController
             $infoSortie = $sortie->getInfosSortie() ??'';
             $sortie->setInfosSortie($infoSortie . "\n[Motif d'annulation : " . $motif . "]");
 
-            $etatAnnule = $sortie->getEtat();
-            $etatAnnule->setLibelle('Annulée');
+            $etat = $this->etatRepository->findOneBy(['libelle' => 'Annulée']);
+            if ($etat === null) {
+                $this->addFlash('error', 'Etat "Annulée" non trouvé en base de données.');
+                return $this->redirectToRoute('app_sortie_detail', ['id' => $id]);
+            } else {
+                $sortie->setEtat($etat);
+            }
 
             $entityManager->persist($sortie);
             $entityManager->flush();

@@ -1,7 +1,10 @@
 {% extends 'base.html.twig' %}
+{% block title %} Inscription {% endblock %}
+
 
 {% block body %}
     <h1>Inscription</h1>
+
     {{ form_start(form) }}
     {{ form_widget(form) }}
     <div class="d-flex justify-content-center mt-4">
@@ -10,7 +13,4 @@
     {{ form_end(form) }}
 {% endblock %}
 
-{% block title %}
-
-{% endblock %}
 
