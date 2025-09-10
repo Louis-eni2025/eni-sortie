@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Utilisateur;
+use App\Repository\CampusRepository;
 use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -10,9 +11,10 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class UtilisateurService
 {
     public function __construct(
-        private UtilisateurRepository $utilisateurRepository,
+        private UtilisateurRepository       $utilisateurRepository,
         private UserPasswordHasherInterface $userPasswordHasher,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface      $entityManager,
+        private readonly CampusRepository $campusRepository
     ){}
 
     public function recupererUtilisateurParId(int $id)
@@ -23,34 +25,25 @@ class UtilisateurService
     public function importerUtilisateursDepuisCSV(mixed $fichier)
     {
         $handle = fopen($fichier->getPathname(), 'r');
-        if ($handle === false) {
-            throw new \Exception('Impossible d\'ouvrir le fichier.');
-        }
-
 
         $utilisateurs = [];
-        $data = fgetcsv($handle);
-        dump($data);
-        exit();
-        foreach($data as $line){
-            dump($line);
-            exit;
-            dump(explode(';', $data[0]));
-//            $arrayData = explode(';', $data[0]);
-//            $utilisateur = new Utilisateur();
-//            $utilisateur->setNom($arrayData[1]);
-//            $utilisateur->setPrenom($arrayData[2]);
-//            $utilisateur->setEmail($arrayData[3]);
-//            $utilisateur->setTelephone($arrayData[4]);
-//            $utilisateur->setPassword($this->userPasswordHasher->hashPassword($utilisateur, random_bytes(8)));
+        while (($data = fgetcsv($handle, 0, ';')) !== false) {
+            $utilisateur = new Utilisateur();
+            $utilisateur->setNom($data[1]);
+            $utilisateur->setPrenom($data[2]);
+            $utilisateur->setEmail($data[3]);
+            $utilisateur->setTelephone($data[4]);
+            $utilisateur->setEstActif(true);
 
-//            $this->entityManager->persist($utilisateur);
-            $utilisateurs[] = $utilisateur;
+            $utilisateur->setCampus($this->campusRepository->findOneBy(['nom' => 'Rennes']));
 
+            $randomPassword = bin2hex(random_bytes(4));
+            $utilisateur->setPassword($this->userPasswordHasher->hashPassword($utilisateur, $randomPassword));
+
+            $this->entityManager->persist($utilisateur);
         }
-//        $this->entityManager->flush();
-        dump($utilisateurs);
-        exit;
+        $this->entityManager->flush();
+
         fclose($handle);
 
         return $utilisateurs;

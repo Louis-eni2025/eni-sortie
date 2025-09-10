@@ -71,8 +71,8 @@ final class UtilisateurController extends AbstractController
 
             if ($fichier) {
                 $this->utilisateurService->importerUtilisateursDepuisCSV($fichier);
-                $this->addFlash('success', 'Import réussie !');
-                return $this->redirectToRoute('app_home');
+                $this->addFlash('success', 'Import réussi !');
+                return $this->redirectToRoute('utilisateurs_liste');
             } else {
                 $this->addFlash('error', 'Veuillez sélectionner un fichier CSV.');
             }
