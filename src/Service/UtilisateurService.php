@@ -22,6 +22,11 @@ class UtilisateurService
         return $this->utilisateurRepository->find($id);
     }
 
+    public function recupererToutLesUtilisateurs()
+    {
+       return $this->utilisateurRepository->findAll();
+    }
+
     public function importerUtilisateursDepuisCSV(mixed $fichier)
     {
         $handle = fopen($fichier->getPathname(), 'r');

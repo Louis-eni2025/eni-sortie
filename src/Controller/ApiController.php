@@ -100,7 +100,6 @@ class ApiController extends AbstractController
     #[Route('/desinscription/{id}', name: 'desinscription_sortie', methods: ['GET'])]
     public function desinscriptionSortie(int $id): Response
     {
-
         $sortie = $this->sortieService->recupererSortieParId($id);
 
         $utilisateur = $this->getUser();
@@ -142,7 +141,5 @@ class ApiController extends AbstractController
 
         }
         return new JsonResponse($retour, Response::HTTP_OK);
-
-        return new JsonResponse(['message' => 'Fonctionnalité non implémentée'], Response::HTTP_NOT_IMPLEMENTED);
     }
 }

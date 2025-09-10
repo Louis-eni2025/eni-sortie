@@ -2,6 +2,7 @@
 
 namespace App\Security\Voter;
 
+use App\Entity\Sortie;
 use App\Entity\Utilisateur;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -23,7 +24,7 @@ final class SortieVoter extends Voter
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
         return in_array($attribute, [self::EDIT, self::DELETE])
-            && $subject instanceof \App\Entity\Sortie;
+            && $subject instanceof Sortie;
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool

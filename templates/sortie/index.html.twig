@@ -88,7 +88,7 @@
                     <td>{{ (app.user in sortie.participants) ? 'x':'' }}</td>
                     <td>{{ sortie.organisateur.nom|upper ~ ' ' ~ sortie.organisateur.prenom }}</td>
                     <td>
-                        <a>Afficher</a>
+                        <a href="{{ path('app_sortie_detail', {'id': sortie.id}) }}">Afficher</a>
                         {% if app.user in sortie.participants %}
                             <a class="sortie_desinscription" data-id="{{ sortie.id }}" href="">Se désister</a>
                         {% elseif (sortie.dateLimiteInscription < date() and sortie.participants | length < sortie.nbInscriptionsMax and (app.user != sortie.organisateur)) %}
