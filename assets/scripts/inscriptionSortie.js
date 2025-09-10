@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function(){
             event.preventDefault();
 
             let sortieId = this.dataset.id;
-            fetch('/eni-sortir/public/api/inscription/' + sortieId, {
+            fetch('/eni-sortie/public/api/inscription/' + sortieId, {
                 method: 'get'
 
             }).then(response => response.json())
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function(){
         link.addEventListener('click', function(event) {
             event.preventDefault();
             let sortieId = this.dataset.id;
-            fetch('/eni-sortir/public/api/desinscription/' + sortieId, {
+            fetch('/eni-sortie/public/api/desinscription/' + sortieId, {
                 method: 'get'
 
             }).then(response => response.json())

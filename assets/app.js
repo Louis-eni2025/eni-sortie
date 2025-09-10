@@ -10,5 +10,6 @@ import './scripts/filtre_sortie.js';
 import './scripts/modificationFormulaireSortie.js';
 import './scripts/creerFormulaireSortie.js';
 import './scripts/inscriptionSortie.js';
+import './scripts/publicationSortie.js';
 // import './scripts/visibiliteMdp.js';
 

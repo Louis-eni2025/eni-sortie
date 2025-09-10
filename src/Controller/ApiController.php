@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\EtatRepository;
 use App\Service\LieuService;
 use App\Service\SortieService;
 use DateTime;
@@ -15,9 +16,9 @@ use Symfony\Component\Routing\Attribute\Route;
 class ApiController extends AbstractController
 {
     public function __construct(
-        private readonly LieuService   $lieuService,
-        private readonly SortieService $sortieService,
-        private readonly EntityManagerInterface $entityManager,
+        private readonly LieuService            $lieuService,
+        private readonly SortieService          $sortieService,
+        private readonly EntityManagerInterface $entityManager, private readonly EtatRepository $etatRepository,
     )
     {
     }
@@ -142,4 +143,48 @@ class ApiController extends AbstractController
         }
         return new JsonResponse($retour, Response::HTTP_OK);
     }
+
+    #[Route('/publier/{id}', name: 'oublier_sortie', methods: ['GET'])]
+    public function publierSortie(int $id): Response
+    {
+
+
+        $utilisateur = $this->getUser();
+        if (!$utilisateur) {
+            $retour = [
+                'message' => 'Accès non autorisé',
+                'erreur' => true
+            ];
+            return new JsonResponse($retour, Response::HTTP_METHOD_NOT_ALLOWED);
+        }
+
+        $sortie = $this->sortieService->recupererSortieParId($id);
+        if (!$sortie) {
+            $retour = [
+                'message' => 'Sortie non trouvé',
+                'erreur' => true
+            ];
+            return new JsonResponse($retour, Response::HTTP_NOT_FOUND);
+        }
+        if ($sortie->getOrganisateur() !== $utilisateur) {
+            $retour = [
+                'message' => 'Accès non autorisé',
+                'erreur' => true
+            ];
+            return new JsonResponse($retour, Response::HTTP_METHOD_NOT_ALLOWED);
+        }
+
+        $etat = $this->etatRepository->findOneBy(['libelle' => 'Ouverte']);
+        $sortie->setEtat($etat);
+        $this->entityManager->persist($sortie);
+        $this->entityManager->flush();
+
+        $retour = [
+            'message' => 'Sortie publiée avec succès',
+            'erreur' => false
+        ];
+
+        return new JsonResponse($retour, Response::HTTP_OK);
+    }
+
 }
