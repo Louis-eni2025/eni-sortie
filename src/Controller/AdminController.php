@@ -78,7 +78,7 @@ final class AdminController extends AbstractController
             $this->addFlash('success', 'Utilisateur créé avec succès ✅');
             // do anything else you need here, like send an email
 
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('app_admin_gerer');
         }
 
         return $this->render('admin/inscription.html.twig', [
