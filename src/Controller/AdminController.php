@@ -73,7 +73,6 @@ final class AdminController extends AbstractController
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
             $user->setRoles(['ROLE_USER']);
-            $user->setEstActif(true);
             $entityManager->persist($user);
             $entityManager->flush();
             $this->addFlash('success', 'Utilisateur créé avec succès ✅');

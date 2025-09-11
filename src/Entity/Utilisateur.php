@@ -86,6 +86,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->sortiesOrganisees = new ArrayCollection();
         $this->sortiesInscrit = new ArrayCollection();
+        $this->estActif = false;
     }
 
     public function getId(): ?int

@@ -1,37 +1,11 @@
-document.addEventListener("DOMContentLoaded",async function(){
-    console.log("ghelelefllael")
+document.addEventListener("DOMContentLoaded",function(){
     let champsLieu = document.getElementById("creer_sortie_lieu")
     let lieuId = champsLieu.value
-    try{
-        const lieu = await getLieu(lieuId)
-        const champsRue = document.getElementById("creer_sortie_rue")
-        champsRue.value = lieu.rue;
-        const champsCpo = document.getElementById("creer_sortie_code_postal")
-        champsCpo.value = lieu.ville.codePostal;
-        const champsLatitude = document.getElementById("creer_sortie_latitude")
-        champsLatitude.value = lieu.latitude
-        const champsLongitude = document.getElementById("creer_sortie_longitude")
-        champsLongitude.value = lieu.longitude
+    manageLieuRemplissage(lieuId)
 
-    }catch (e){
-        console.error(e)
-    }
     champsLieu.addEventListener("change",async function(){
         let lieuId = this.value
-        try{
-            const lieu = await getLieu(lieuId)
-            const champsRue = document.getElementById("creer_sortie_rue")
-            champsRue.value = lieu.rue;
-            const champsCpo = document.getElementById("creer_sortie_code_postal")
-            champsCpo.value = lieu.ville.codePostal;
-            const champsLatitude = document.getElementById("creer_sortie_latitude")
-            champsLatitude.value = lieu.latitude
-            const champsLongitude = document.getElementById("creer_sortie_longitude")
-            champsLongitude.value = lieu.longitude
-
-        }catch (e){
-            console.error(e)
-        }
+        await manageLieuRemplissage(lieuId)
     })
 })
 
@@ -57,5 +31,22 @@ async function getLieu(id){
         throw e;
     }
 
+}
+
+async function manageLieuRemplissage(id) {
+    try {
+        const lieu = await getLieu(id)
+        const champsRue = document.getElementById("creer_sortie_rue")
+        champsRue.value = lieu.rue;
+        const champsCpo = document.getElementById("creer_sortie_code_postal")
+        champsCpo.value = lieu.ville.codePostal;
+        const champsLatitude = document.getElementById("creer_sortie_latitude")
+        champsLatitude.value = lieu.latitude
+        const champsLongitude = document.getElementById("creer_sortie_longitude")
+        champsLongitude.value = lieu.longitude
+
+    } catch (e) {
+        console.error(e)
+    }
 }
 
